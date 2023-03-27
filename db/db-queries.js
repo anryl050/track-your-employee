@@ -68,9 +68,51 @@ module.exports = {
     },
 
     // SQL query to add a new role to the DB, based on user input
-    addRole: async function(){
-        await db.promise().query('INSERT INTO role SET (?)', {title: answers.title, salary: answers.salary, department: answers.department})
-        console.log(`Role: ${title} has been added!`)
+    addRole: async function(role){
+        await db.promise().query('INSERT INTO role SET ?', {
+            title: role.title, 
+            salary: role.salary, 
+            department_id: role.department
+        });
+        console.log(`Role: ${role.title} has been added!`)
     },
 
+     // SQL query to add a new employee to the DB, based on user input
+     addEmployee: async function(newEmployee){
+        console.log(newEmployee)
+
+        await db.promise().query('INSERT INTO employee SET ?', {
+            first_name: newEmployee.first_name,
+            last_name: newEmployee.last_name,
+            role_id: newEmployee.role,
+            manager_id: newEmployee.manager
+        });
+
+        console.log(`Employee: ${newEmployee.first_name} ${newEmployee.last_name} has been added!`)
+    },
+
+      // SQL query to add a new employee to the DB, based on user input
+      addEmployee: async function(newEmployee){
+       
+        await db.promise().query('INSERT INTO employee SET ?', {
+            first_name: newEmployee.first_name,
+            last_name: newEmployee.last_name,
+            role_id: newEmployee.role,
+            manager_id: newEmployee.manager
+        });
+
+        console.log(`Employee: ${newEmployee.first_name} ${newEmployee.last_name} has been added!`)
+    },
+
+      // SQL query to add a new employee to the DB, based on user input
+      updateEmployeeRole: async function(newEmployee){
+        console.log(newEmployee)
+       
+        await db.promise().query('Update employee SET role_id ?', {
+            role_id: newEmployee.role,
+            employee_id: newEmployee.employee
+        });
+
+        console.log(`Employee's role was updated!`)
+    },
 }
