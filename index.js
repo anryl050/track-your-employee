@@ -189,12 +189,7 @@ async function updateEmployeeRole(){
   
     const employee = await db.viewEmployees();
     const role = await db.viewRoles();
-
-    // const employees = employees.map(employee => ({
-    //     name: employees.employee_name,
-    //     value: employee.id
-    // }));
-    
+  
     const roleChoices = role.map(role => ({
         name: role.title,
         value: role.id
