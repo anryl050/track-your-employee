@@ -182,7 +182,7 @@ async function addEmployee(){
    
     await db.addEmployee(newEmployee);
 
-    start();
+    await viewEmployees();
 }
 
 //async function to adupdate employee role
