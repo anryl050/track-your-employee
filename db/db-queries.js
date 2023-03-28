@@ -50,7 +50,7 @@ module.exports = {
                 employee.id, employee.first_name, employee.last_name, role.title, role.salary AS salary, department.name AS department, CONCAT(m.first_name, ' ', m.last_name) AS manager_name
             FROM employee
             JOIN role
-                ON employee.id = role.id
+                ON employee.role_id = role.id
             JOIN department
                 ON role.department_id = department.id
             LEFT JOIN employee m
@@ -100,9 +100,8 @@ module.exports = {
     },
 
       // SQL query to update employee's role
-      updateEmployeeRole: async function(newEmployee){
-        console.log(newEmployee)
-       
+     updateEmployeeRole: async function(newEmployee){
+               
         await db.promise().query(`
         UPDATE employee 
         SET role_id = ? 
@@ -113,5 +112,4 @@ module.exports = {
 
         console.log(`Updated ${newEmployee.employee}'s role in the database!`)
     },
-
 }
