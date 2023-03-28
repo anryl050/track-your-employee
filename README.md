@@ -43,7 +43,7 @@ N/A
 
 
 ## Demo Video
-[Demo Video]()
+[Demo Video](https://user-images.githubusercontent.com/118693401/228147603-5adb7dff-f731-4718-8518-76cb1c166e85.mp4)
 
 
 ## Installation
@@ -52,7 +52,7 @@ N/A
 
 
 ## Usage
-
+Open the application by typing in the npm start. Once the application is started follow the propmps to select desired action. 
 
 
 ## Tests
@@ -60,7 +60,8 @@ At this time no Unit Tests available to test the application functionalities.
 
 
 ## Contribution
-
+AskBCS Learning Assistants
+Tutor 
 
 
 ## License
