@@ -77,23 +77,18 @@ module.exports = {
         console.log(`Role: ${role.title} has been added!`)
     },
 
-     // SQL query to add a new employee to the DB, based on user input
-     addEmployee: async function(newEmployee){
-        console.log(newEmployee)
-
-        await db.promise().query('INSERT INTO employee SET ?', {
-            first_name: newEmployee.first_name,
-            last_name: newEmployee.last_name,
-            role_id: newEmployee.role,
-            manager_id: newEmployee.manager
-        });
-
-        console.log(`Employee: ${newEmployee.first_name} ${newEmployee.last_name} has been added!`)
-    },
-
-      // SQL query to add a new employee to the DB, based on user input
+        // SQL query to add a new employee to the DB, based on user input
       addEmployee: async function(newEmployee){
        
+        const [employee] = await db.promise().query(`
+        SELECT 
+            employee.id, CONCAT(m.first_name, ' ', m.last_name) AS manager_name
+        FROM employee
+        LEFT JOIN employee m
+            ON employee.manager_id = m.id
+        WHERE employee.id = ${newEmployee.manager}
+    `);
+
         await db.promise().query('INSERT INTO employee SET ?', {
             first_name: newEmployee.first_name,
             last_name: newEmployee.last_name,
@@ -108,12 +103,15 @@ module.exports = {
       updateEmployeeRole: async function(newEmployee){
         console.log(newEmployee)
        
-        await db.promise().query('UPDATE employee SET role_id = ? WHERE id = ?', [
-            newEmployee.role,
-            newEmployee.employee
+        await db.promise().query(`
+        UPDATE employee 
+        SET role_id = ? 
+        WHERE first_name = ? AND last_name = ?`, 
+        [
+            newEmployee.roleId, newEmployee.first_name, newEmployee.last_name
         ]);
 
-        console.log(`Employee's role was updated!`)
+        console.log(`Updated ${newEmployee.employee}'s role in the database!`)
     },
 
 }

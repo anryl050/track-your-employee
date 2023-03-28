@@ -18,7 +18,6 @@ async function start(){
                 'Add a role',
                 'Add an employee',
                 'Update an employee role',
-                'End'
              ]
          }
      ])
@@ -139,6 +138,8 @@ async function addRole(){
 
 //async function to add a new employee
 async function addEmployee(){
+    const role = await db.viewRoles();
+    const employee = await db.viewEmployees();
        
       const roleChoices = role.map(role => ({
         name: role.title,
@@ -181,7 +182,7 @@ async function addEmployee(){
    
     await db.addEmployee(newEmployee);
 
-    await viewEmployees();
+    start();
 }
 
 //async function to adupdate employee role
@@ -189,33 +190,31 @@ async function updateEmployeeRole(){
   
     const employee = await db.viewEmployees();
     const role = await db.viewRoles();
-  
-    const roleChoices = role.map(role => ({
-        name: role.title,
-        value: role.id
-    }));
 
+    const employees = employee.map(
+        (employee) => 
+        `${employee.first_name} ${employee.last_name}`);
+    
   const newEmployee = await inquirer.prompt([
           {
           type:"list",
           name: "employee",
           message: "Select employee to update the role:",
-          choices: employee.map(
-            (employee) => 
-            `${employee.first_name} ${employee.last_name}`),
+          choices: employees
           },
           {
             type:"list",
-            name: "role",
+            name: "roleId",
             message: "What is employee's new role?",
-            choices: roleChoices
+            choices: role.map(role => ({
+                name: role.title,
+                value: role.id
+            }))
         }
   ])
-  console.log(newEmployee)
- 
+   
   await db.updateEmployeeRole(newEmployee);
-
-  await viewEmployees();
+  start()
 }
 
 
